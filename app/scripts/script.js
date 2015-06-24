@@ -6,6 +6,8 @@
     return;
   }
 
+  var prefix = "mm_tools_ext_";
+
   /**
    * Send msg to content script to show the extension icon
    */
@@ -16,27 +18,40 @@
   }());
 
   /**
-   * Send page data for popup page
+   * Event listeners from popup
    */
   (function () {
-    document.addEventListener('getMmcoreInfo', function (e) {
+    /**
+     * Send page data to popup
+     */
+    document.addEventListener(prefix + 'get_mmcore_info', function (e) {
       var data = {
-        GenInfo : mmcore.GenInfo,
-        _sid : mmcore._sid
+        GenInfo: mmcore.GenInfo,
+        _sid: mmcore._sid,
+        muted: mmcore.GetCookie(prefix + 'muted', 1).length
       };
       var evt = document.createEvent("CustomEvent");
-      evt.initCustomEvent("sendMmcore", true, true, data);
+      evt.initCustomEvent("sendParentData", true, true, data);
       document.dispatchEvent(evt);
     });
-  }());
 
+    /**
+     * Mute/unmute notifications
+     */
+    document.addEventListener(prefix + 'mute', function (e) {
+      mmcore.SetCookie(prefix + 'muted', 1, 360, 1);
+    });
+    document.addEventListener(prefix + 'unmute', function (e) {
+      mmcore.SetCookie(prefix + 'muted', 0, -1, 1);
+    });
+  }());
 
   /**
    * @description HTML5 notification. Using in "SetAction wrapper" now.
    * @param str
    */
   function notifyMe(str) {
-    if(localStorage.getItem('muted')) {
+    if (mmcore.GetCookie(prefix + 'muted', 1).length !== 0) {
       return false;
     }
 

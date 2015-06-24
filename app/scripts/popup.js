@@ -3,12 +3,14 @@
 chrome.windows.getCurrent(function (w) {
   chrome.tabs.getSelected(w.id,
     function (response) {
-      chrome.tabs.sendMessage(response.id, {msg: "getMmcoreInfo"}, function (response) {
+      chrome.tabs.sendMessage(response.id, {msg: "get_mmcore_info"}, function (responseMmcoreInfo) {
 
         var campaignInfo = document.querySelector('#mm_tools_popup .campaignInfo'),
           CGcounterInfo = document.querySelector('#mm_tools_popup .CGcounter');
 
-        var genInfo = response.GenInfo, CGcount = response._sid.replace('mmcore.', '');
+        var genInfo = responseMmcoreInfo.GenInfo,
+          CGcount = responseMmcoreInfo._sid.replace('mmcore.', ''),
+          muted = responseMmcoreInfo.muted;
 
         for (var campName in genInfo) {
           var element = [];
@@ -30,6 +32,23 @@ chrome.windows.getCurrent(function (w) {
           CGcounterInfo.appendChild(div);
         }
 
+        var muteBtn = document.createElement('button');
+        if (muted === 0) {
+          muteBtn.innerHTML = "Mute";
+          muteBtn.onclick = function () {
+            chrome.tabs.sendMessage(response.id, {msg: "mute"});
+            window.close();
+          };
+        }
+        else {
+          muteBtn.innerHTML = "Unmute";
+          muteBtn.onclick = function () {
+            chrome.tabs.sendMessage(response.id, {msg: "unmute"});
+            window.close();
+          };
+        }
+        muteBtn.id = "muteBtn";
+        document.querySelector("#mute").appendChild(muteBtn);
 
       });
     });
