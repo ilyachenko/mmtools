@@ -13,7 +13,7 @@
    */
   (function () {
     var evt = document.createEvent("CustomEvent");
-    evt.initCustomEvent("init_mm_tools", true, true, '');
+    evt.initCustomEvent("init_mm_tools", true, true, { muted: mmcore.GetCookie(prefix + 'muted', 1).length });
     document.dispatchEvent(evt);
   }());
 
@@ -38,11 +38,20 @@
     /**
      * Mute/unmute notifications
      */
+    var change_icon_handler = function(state){
+      var evt = document.createEvent("CustomEvent");
+      evt.initCustomEvent("change_icon", true, true, {muted: state});
+      document.dispatchEvent(evt);
+    };
+
     document.addEventListener(prefix + 'mute', function (e) {
       mmcore.SetCookie(prefix + 'muted', 1, 360, 1);
+      change_icon_handler(1);
     });
+
     document.addEventListener(prefix + 'unmute', function (e) {
       mmcore.SetCookie(prefix + 'muted', 0, -1, 1);
+      change_icon_handler(0);
     });
   }());
 

@@ -19,10 +19,14 @@ s.onload = function () {
 (document.head || document.documentElement).appendChild(s);
 
 /**
- * Send msg to background page to show the icon
+ * Send msg from Parent to Background page
  */
-document.addEventListener('init_mm_tools', function () {
-  chrome.runtime.sendMessage({msg: "init_mm_tools"});
+document.addEventListener('init_mm_tools', function (data) {
+  chrome.runtime.sendMessage({msg: "init_mm_tools", muted: data.detail.muted });
+});
+
+document.addEventListener('change_icon', function (data) {
+  chrome.runtime.sendMessage({msg: "change_icon", muted: data.detail.muted});
 });
 
 /**
