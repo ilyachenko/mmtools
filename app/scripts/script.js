@@ -8,12 +8,21 @@
 
   var prefix = "mm_tools_ext_";
 
+  function getData(){
+    return {
+      GenInfo: mmcore.GenInfo,
+      _sid: mmcore._sid,
+      muted: mmcore.GetCookie(prefix + 'muted', 1).length,
+      cfgID: mmcore.GetCookie("cfgID", 0)
+    };
+  }
+
   /**
    * Send msg to content script to show the extension icon
    */
   (function () {
     var evt = document.createEvent("CustomEvent");
-    evt.initCustomEvent("init_mm_tools", true, true, { muted: mmcore.GetCookie(prefix + 'muted', 1).length });
+    evt.initCustomEvent("init_mm_tools", true, true, getData() );
     document.dispatchEvent(evt);
   }());
 
@@ -25,13 +34,8 @@
      * Send page data to popup
      */
     document.addEventListener(prefix + 'get_mmcore_info', function (e) {
-      var data = {
-        GenInfo: mmcore.GenInfo,
-        _sid: mmcore._sid,
-        muted: mmcore.GetCookie(prefix + 'muted', 1).length
-      };
       var evt = document.createEvent("CustomEvent");
-      evt.initCustomEvent("sendParentData", true, true, data);
+      evt.initCustomEvent("sendParentData", true, true, getData());
       document.dispatchEvent(evt);
     });
 
@@ -40,7 +44,7 @@
      */
     var change_icon_handler = function(state){
       var evt = document.createEvent("CustomEvent");
-      evt.initCustomEvent("change_icon", true, true, {muted: state});
+      evt.initCustomEvent("change_icon", true, true, getData());
       document.dispatchEvent(evt);
     };
 

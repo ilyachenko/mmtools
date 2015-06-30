@@ -22,11 +22,11 @@ s.onload = function () {
  * Send msg from Parent to Background page
  */
 document.addEventListener('init_mm_tools', function (data) {
-  chrome.runtime.sendMessage({msg: "init_mm_tools", muted: data.detail.muted });
+  chrome.runtime.sendMessage({msg: "init_mm_tools", data: data.detail });
 });
 
 document.addEventListener('change_icon', function (data) {
-  chrome.runtime.sendMessage({msg: "change_icon", muted: data.detail.muted});
+  chrome.runtime.sendMessage({msg: "change_icon", data: data.detail});
 });
 
 /**
