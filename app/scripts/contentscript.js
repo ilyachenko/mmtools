@@ -6,11 +6,6 @@ var prefix = "mm_tools_ext_";
 /**
  * Injection
  */
-var img = document.createElement('img'); // Insert image MM tools logo
-img.src = chrome.extension.getURL('images/icon-128.png');
-img.id = "mm_tools_logo";
-(document.head || document.documentElement).appendChild(img);
-
 var s = document.createElement('script'); // Inject script to page
 s.src = chrome.extension.getURL('scripts/script.js');
 s.onload = function () {

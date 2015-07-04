@@ -1,5 +1,6 @@
 #mm_tools_popup {
   width: 250px;
+  display: none;
 }
 
 #mm_tools_popup .campaignInfo div {
@@ -18,4 +19,19 @@
 
 #mm_tools_popup .CGcounter div {
   float: right;
+}
+
+#install_OPC, #help_btn {
+  float: right;
+}
+
+#help_btn {
+  color: grey;
+  cursor: pointer;
+}
+
+#mm_error {
+  display: none;
+  color: red;
+  padding-bottom: 10px;
 }

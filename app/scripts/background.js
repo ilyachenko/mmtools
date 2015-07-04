@@ -1,17 +1,34 @@
 'use strict';
 
+function showHelp(){
+  chrome.tabs.create({'url': chrome.extension.getURL('help.html')}, function (tab) {
+    // Tab opened.
+  });
+}
+
 chrome.runtime.onInstalled.addListener(function (details) {
-  console.log('previousVersion', details.previousVersion);
+  //console.log('previousVersion', details.previousVersion);
+  showHelp();
 });
 
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
   //chrome.pageAction.show(tabId);
 });
 
+chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
+  if (request.msg == "help_btn") {
+    showHelp();
+    //sendResponse({farewell: "goodbye"});
+  }
+});
+
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-    function getIconPath(){
+    function getIconPath() {
       var path = "images/icon-19.png";
-      if (data.muted) {
+      if (data.mm_error) {
+        path = "images/icon-19-error.png";
+      }
+      else if (data.muted) {
         path = "images/icon-19-muted.png";
       }
       else if (data.cfgID === "1") {
