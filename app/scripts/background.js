@@ -8,7 +8,7 @@ function showHelp(){
 
 chrome.runtime.onInstalled.addListener(function (details) {
   //console.log('previousVersion', details.previousVersion);
-  showHelp();
+  //showHelp();
 });
 
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {

@@ -82,21 +82,33 @@
         mmcore.SetCookie('opc.enabled', '', -1);
         location.reload();
       } else {
-        mmcore.SetCookie('cfgID', 1, 90);
+        //mmcore.SetCookie('cfgID', 1, 90);
         mmcore.OPC_install();
       }
     });
 
     document.addEventListener(prefix + 'qa_tool_install', function (e) {
-      if (mmcore.GetCookie('mmcore.un')) {
+      if (mmcore.GetCookie('mmcore.un', 1)) {
         mmcore.SetCookie('mmcore.un', '', -1, 1);
         location.reload();
       } else {
         mmcore.SetCookie('mmcore.un', 'qa', 1, 1);
+        //mmcore.SetCookie('cfgID', 1, 90);
+        location.reload();
+      }
+    });
+
+    document.addEventListener(prefix + 'switchTo', function (e) {
+      if (mmcore.GetCookie('cfgID', 0) === "1") {
+        mmcore.SetCookie('cfgID', 2, 90);
+        location.reload();
+      }
+      else if (mmcore.GetCookie('cfgID', 0) === "2"){
         mmcore.SetCookie('cfgID', 1, 90);
         location.reload();
       }
     });
+
   }());
 
   /**

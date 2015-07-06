@@ -16,7 +16,8 @@ chrome.windows.getCurrent(function (w) {
           muted = responseMmcoreInfo.muted,
           opc = responseMmcoreInfo.opc,
           qa_tool = responseMmcoreInfo.qa_tool,
-          mm_error = responseMmcoreInfo.mm_error;
+          mm_error = responseMmcoreInfo.mm_error,
+          cfgID = responseMmcoreInfo.cfgID;
 
         for (var campName in genInfo) {
           var element = [];
@@ -57,7 +58,7 @@ chrome.windows.getCurrent(function (w) {
         document.querySelector("#mute").appendChild(muteBtn);
 
         // Install OPC
-        if(opc){
+        if (opc) {
           document.querySelector("#install_OPC .opc span").innerHTML = "Uninstall";
         }
         else {
@@ -69,7 +70,7 @@ chrome.windows.getCurrent(function (w) {
         });
 
         // Install QA tool
-        if(qa_tool){
+        if (qa_tool) {
           document.querySelector("#install_OPC .qa_tool span").innerHTML = "Uninstall";
         }
         else {
@@ -82,16 +83,29 @@ chrome.windows.getCurrent(function (w) {
 
         // Help
         document.querySelector("#help_btn").addEventListener('click', function () {
-          chrome.extension.sendRequest({msg: "help_btn"}, function(response) {
+          chrome.extension.sendRequest({msg: "help_btn"}, function (response) {
             //console.log(response.farewell);
           });
         });
 
         // mm_error
-        if(mm_error.length){
+        if (mm_error.length) {
           document.querySelector("#mm_error").innerHTML = "mm_error: " + mm_error;
           document.querySelector("#mm_error").style.display = "block";
         }
+
+        // Switch to sandbox/production
+        if (cfgID === "1") {
+          document.querySelector(".switchTo a").innerHTML = "production";
+        }
+        else if (cfgID === "2") {
+          document.querySelector(".switchTo a").innerHTML = "sandbox";
+        }
+
+        document.querySelector(".switchTo a").addEventListener('click', function () {
+          chrome.tabs.sendMessage(response.id, {msg: "switchTo"});
+          window.close();
+        });
 
       });
     });
