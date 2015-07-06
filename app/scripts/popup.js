@@ -19,18 +19,20 @@ chrome.windows.getCurrent(function (w) {
           mm_error = responseMmcoreInfo.mm_error,
           cfgID = responseMmcoreInfo.cfgID;
 
-        for (var campName in genInfo) {
-          var element = [];
+        if (Object.keys(genInfo).length) {
+          document.querySelector('.campaignInfo').style.display = "block";
+          for (var campName in genInfo) {
+            var element = [];
 
-          for (var name in genInfo[campName]) {
-            element.push(name);
-            element.push(genInfo[campName][name]);
+            for (var name in genInfo[campName]) {
+              element.push(name);
+              element.push(genInfo[campName][name]);
+            }
+
+            var span = document.createElement('div');
+            span.innerHTML = "<b>" + campName + "</b>";
+            campaignInfo.appendChild(span);
           }
-
-          var span = document.createElement('div');
-          span.innerHTML = "Campaign: <b>" + campName + "</b> " +
-          "<br>";
-          campaignInfo.appendChild(span);
         }
 
         if (CGcount) {

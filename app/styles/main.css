@@ -1,10 +1,12 @@
+html {
+  background-image: url(../images/national.png);
+  background-repeat-x: no-repeat;
+  padding-left: 20px;
+}
+
 #mm_tools_popup {
   width: 250px;
   display: none;
-}
-
-#mm_tools_popup .campaignInfo div {
-  padding-bottom: 10px;
 }
 
 #mm_tools_popup .campaignInfo div:last-child {
