@@ -17,7 +17,8 @@
       cfgID: mmcore.GetCookie("cfgID", 0),
       opc: mmcore.GetCookie('opc.enabled'),
       qa_tool: mmcore.GetCookie('mmcore.un', 1).length,
-      mm_error: typeof mm_error === "undefined" ? "" : mm_error.trim()
+      mm_error: typeof mm_error === "undefined" ? "" : mm_error.trim(),
+      cginfo: (typeof mmcore.cginfo === "undefined" || mmcore.GetCookie('mmcore.un', 1).length) ? false : mmcore.cginfo
     };
   }
 
@@ -106,6 +107,14 @@
       else if (mmcore.GetCookie('cfgID', 0) === "2"){
         mmcore.SetCookie('cfgID', 1, 90);
         location.reload();
+      }
+    });
+
+    document.addEventListener(prefix + 'open_mmcore_script', function (e) {
+      var mmcore = document.querySelectorAll('script[src*="mmcore.js"]');
+      if (mmcore.length){
+        var src = document.querySelectorAll('script[src*="mmcore.js"]')[0].src;
+        window.open(src,'_blank');
       }
     });
 

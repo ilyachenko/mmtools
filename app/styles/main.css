@@ -9,31 +9,62 @@
   display: none;
 }
 
-#mm_tools_popup .campaignInfo div:last-child {
+#campaignInfo div:last-child {
   padding-bottom: 0px;
 }
 
-#mm_tools_popup .CGcounter {
+#CGcounter {
   width: 100%;
   height: 20px;
   display: block;
 }
 
-#mm_tools_popup .CGcounter div {
+#CGcounter div {
   float: right;
 }
 
-#install_OPC, #help_btn {
+#install_OPC, #under {
   float: right;
 }
 
-#help_btn {
+#under li {
   color: grey;
   cursor: pointer;
+}
+
+#under ul li {
+  display: inline;
+}
+
+#under ul li:after {
+  content: " \00b7";
+}
+
+#under ul li.last:after {
+  content: "";
 }
 
 #mm_error {
   display: none;
   color: red;
   padding-bottom: 10px;
+}
+
+#pages .request span {
+  font-weight: bold;
+}
+
+#pages .mask {
+  float: right;
+  color: green;
+}
+
+#mm_tools_popup ul {
+  margin-top: 0;
+  list-style-type: none;
+  padding-left: 15px;
+}
+
+.padding {
+  padding-top: 10px;
 }

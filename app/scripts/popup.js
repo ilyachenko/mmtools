@@ -9,19 +9,23 @@ chrome.windows.getCurrent(function (w) {
         document.querySelector('#preloader').style.display = "none";
         document.querySelector('#mm_tools_popup_html_tag').className = "national";
 
-        var campaignInfo = document.querySelector('#mm_tools_popup .campaignInfo'),
-          CGcounterInfo = document.querySelector('#mm_tools_popup .CGcounter');
+        var campaignInfo = document.querySelector('#campaignInfo'),
+          CGcounterInfo = document.querySelector('#CGcounter'),
+          pagesList = document.querySelector('#pages');
 
-        var genInfo = responseMmcoreInfo.GenInfo,
+        var genInfo = responseMmcoreInfo.GenInfo || {},
           CGcount = responseMmcoreInfo._sid.replace('mmcore.', ''),
           muted = responseMmcoreInfo.muted,
           opc = responseMmcoreInfo.opc,
           qa_tool = responseMmcoreInfo.qa_tool,
           mm_error = responseMmcoreInfo.mm_error,
-          cfgID = responseMmcoreInfo.cfgID;
+          cfgID = responseMmcoreInfo.cfgID,
+          cginfo = responseMmcoreInfo.cginfo;
 
         if (Object.keys(genInfo).length) {
-          document.querySelector('.campaignInfo').style.display = "block";
+          var ul = document.createElement('ul');
+          campaignInfo.style.display = "block";
+          campaignInfo.appendChild(ul);
           for (var campName in genInfo) {
             var element = [];
 
@@ -30,9 +34,10 @@ chrome.windows.getCurrent(function (w) {
               element.push(genInfo[campName][name]);
             }
 
-            var span = document.createElement('div');
-            span.innerHTML = "<b>" + campName + "</b>";
-            campaignInfo.appendChild(span);
+            var li = document.createElement('li');
+            li.title = "Campaign name";
+            li.innerHTML = campName;
+            ul.appendChild(li);
           }
         }
 
@@ -85,10 +90,16 @@ chrome.windows.getCurrent(function (w) {
         });
 
         // Help
-        document.querySelector("#help_btn").addEventListener('click', function () {
+        document.querySelector("#under .help").addEventListener('click', function () {
           chrome.extension.sendRequest({msg: "help_btn"}, function (response) {
             //console.log(response.farewell);
           });
+        });
+
+        // Open mmcore page
+        document.querySelector("#under .open_mmcore_script").addEventListener('click', function () {
+          chrome.tabs.sendMessage(response.id, {msg: "open_mmcore_script"});
+          window.close();
         });
 
         // mm_error
@@ -109,6 +120,23 @@ chrome.windows.getCurrent(function (w) {
           chrome.tabs.sendMessage(response.id, {msg: "switchTo"});
           window.close();
         });
+
+        // Pages
+        if (cginfo) {
+          cginfo.forEach(function (v, i) {
+            var pageRequestDiv = document.createElement('div');
+            pageRequestDiv.className = "request";
+            pageRequestDiv.innerHTML = "<span>Request " + (i + 1) + "</span>";
+            var ul = document.createElement('ul');
+            v.Locations.forEach(function (v, i) {
+              var li = document.createElement('li');
+              li.innerHTML = '<div style="clear: both;">' + v.Name + '</div><div class="mask">' + v.PageMask + '</div>';
+              ul.appendChild(li);
+            });
+            pageRequestDiv.appendChild(ul);
+            pagesList.appendChild(pageRequestDiv);
+          });
+        }
 
       });
     });
