@@ -7,6 +7,7 @@ chrome.windows.getCurrent(function (w) {
 
         document.querySelector('#mm_tools_popup').style.display = "block";
         document.querySelector('#preloader').style.display = "none";
+        document.querySelector('#mm_tools_popup_html_tag').className = "national";
 
         var campaignInfo = document.querySelector('#mm_tools_popup .campaignInfo'),
           CGcounterInfo = document.querySelector('#mm_tools_popup .CGcounter');
